@@ -15,6 +15,7 @@ import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
 import DatePicker from 'primevue/datepicker';
 import Card from 'primevue/card';
+import TabMenu from 'primevue/tabmenu';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -32,6 +33,7 @@ app.use(PrimeVue, {
         }
     }});
 
+app.component('TabMenu', TabMenu);
 app.component('Card', Card);
 app.component('DataTable', DataTable);
 app.component('Column', Column);
