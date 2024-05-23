@@ -1,11 +1,11 @@
 <script setup>
-import Header from './components/Header.vue';
 import ContentTemplate from './components/ContentTemplate.vue';
+import Footer from './components/Footer.vue';
 </script>
 
 <template>
-  <Header/>
   <ContentTemplate/>
+  <Footer />
 </template>
 
 <style scoped>
