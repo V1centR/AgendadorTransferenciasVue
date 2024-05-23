@@ -8,21 +8,18 @@
                     <div class="flex flex-column gap-2">
                         <label for="username">Data Inicial:</label>
                         <DatePicker v-model="startDate" dateFormat="dd/mm/yy" />
-                        
                     </div>
                 </div>
                 <div class="field col">
                     <div class="flex flex-column gap-2">
                         <label for="username">Data final:</label>
                         <DatePicker v-model="endDate" dateFormat="dd/mm/yy" />
-                        
                     </div>
                 </div>
             </div>
             <div style="">
                 <Button label="Buscar" />
             </div>
-            
         </div>
         <hr>   
         <div style="width: 60%;">
@@ -89,13 +86,12 @@
         }
     ];
     
-    
-            return {
-                inputValue,
-                startDate,
-                endDate,
-                agendamentos
-            };
+        return {
+            inputValue,
+            startDate,
+            endDate,
+            agendamentos
+        };
         }
        }
      </script>
