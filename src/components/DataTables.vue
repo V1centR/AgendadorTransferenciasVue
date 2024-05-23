@@ -11,41 +11,42 @@
     </DataTable>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios';
 
 export default {
-    name:'DataTables',
-    data() {
-        return {
-            agendamentos: []
-        };
+  name: 'DataTables',
+  props: {
+    startDate: {
+      type: String,
+      required: true
     },
-    mounted() {
-        this.fetchAgendamentos()
-    },
-    methods: {
-        async fetchAgendamentos() {
-            try {
-                const response = await axios.get('http://localhost:8080/agendamento/today')
-                this.agendamentos = response.data
-            } catch (error) {
-                console.error('Error fetching agendamentos:', error)
-            }
-        }
-    },
-    setup() {
-        const agendamentos = ref(null);
-        const inputValue = ref('');
-        const startDate = ref(null);
-        const endDate = ref(null);
-
-        return {
-            agendamentos,
-            inputValue,
-            startDate,
-            endDate,
-        };
+    endDate: {
+      type: String,
+      required: true
     }
-}
+  },
+  data() {
+    return {
+      agendamentos: []
+    };
+  },
+  mounted() {
+    this.fetchAgendamentos();
+  },
+  methods: {
+    async fetchAgendamentos() {
+      try {
+        const response = await axios.get(`http://localhost:8080/agendamento/range/${this.startDate}/${this.endDate}`);
+        this.agendamentos = response.data;
+      } catch (error) {
+        console.error('Error fetching agendamentos:', error);
+      }
+    }
+  },
+  watch: {
+    startDate: 'fetchAgendamentos',
+    endDate: 'fetchAgendamentos'
+  }
+};
 </script>
