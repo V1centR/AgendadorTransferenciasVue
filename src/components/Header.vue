@@ -2,8 +2,6 @@
     <div class="header">
      <h1 style="font-size: 22px;"><span>Transferências financeiras | Agendamento </span></h1>
  </div>
- 
- 
  <Tabs value="0">
     <TabList>
         <Tab value="0" class="tabFont">Home</Tab>
