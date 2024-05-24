@@ -64,6 +64,7 @@ import DataTables from './DataTables.vue';
       setup() {
          const startDate = ref(null);
          const endDate = ref(null);
+         const ctaOrigem = ref(null);
          return {
             startDate,
             endDate,

@@ -16,6 +16,7 @@ import Button from 'primevue/button';
 import FloatLabel from 'primevue/floatlabel';
 import DatePicker from 'primevue/datepicker';
 import Card from 'primevue/card';
+import Message from 'primevue/message';
 
 //TABS 
 import TabMenu from 'primevue/tabmenu';
@@ -25,6 +26,7 @@ import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import Tag from 'primevue/tag';
+import InlineMessage from 'primevue/inlinemessage';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -44,6 +46,8 @@ app.use(PrimeVue, {
     }});
 
 
+app.component('InlineMessage', InlineMessage);
+app.component('Message', Message);
 app.component('Tag', Tag);
 app.component('Tabs', Tabs);
 app.component('TabList', TabList);
