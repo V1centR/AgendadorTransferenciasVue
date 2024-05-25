@@ -28,6 +28,9 @@ import TabPanel from 'primevue/tabpanel';
 import Tag from 'primevue/tag';
 import InlineMessage from 'primevue/inlinemessage';
 
+import money from 'v-money3'
+
+
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
@@ -46,6 +49,7 @@ app.use(PrimeVue, {
     }});
 
 
+app.component('money', money);
 app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);
 app.component('Tag', Tag);

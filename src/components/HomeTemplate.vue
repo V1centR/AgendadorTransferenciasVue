@@ -40,8 +40,8 @@ export default {
   setup() {
     const startDate = ref(null);
     const endDate = ref(null);
-    const formattedStartDate = ref('');
-    const formattedEndDate = ref('');
+    const formattedStartDate = ref(0);
+    const formattedEndDate = ref(0);
 
     const resetTime = (date) => {
       const newDate = new Date(date);
