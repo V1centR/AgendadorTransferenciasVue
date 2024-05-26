@@ -10,12 +10,14 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@vueuse/core": "^10.9.0",
     "axios": "^1.7.2",
     "primeflex": "^3.3.1",
     "primevue": "^4.0.0-beta.3",
     "v-money3": "^3.24.1",
     "vue": "^3.4.21",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vue3-ui-preloader": "^1.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

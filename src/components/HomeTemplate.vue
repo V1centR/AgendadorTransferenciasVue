@@ -23,13 +23,17 @@
             </div>
             <hr>
             <div style="width: 90%;">
-                <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" />
+                <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" :key="componentKey" />
+            </div>
+            <div style="font-weight: bold; margin-top: 10px; font-size: 10px;">
+              *AP : á pagar<br>
+              *OK : pago
             </div>
         </template>
     </Card>    
 </template>
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted} from 'vue';
 import DataTables from './DataTables.vue';
 
 export default {
@@ -37,11 +41,31 @@ export default {
   components: {
     DataTables
   },
-  setup() {
+  props: {
+      reloadKey: {
+      type: Number,
+      required: true,
+    }
+  },
+  watch: {
+    reloadKey() {
+      console.log("REFRESH ACCPETED!");
+      this.forceRerender();
+    },
+  },
+  methods:{
+    forceRerender() {
+      this.componentKey += 1;
+      console.log("forceRerender exec");
+    }
+  },
+  setup() {   
+
     const startDate = ref(null);
     const endDate = ref(null);
     const formattedStartDate = ref(0);
     const formattedEndDate = ref(0);
+    const componentKey = ref(0);
 
     const resetTime = (date) => {
       const newDate = new Date(date);
@@ -59,6 +83,8 @@ export default {
     };
 
     onMounted(() => {
+      
+      console.log("EXEC OK");
       startDate.value = new Date();
       endDate.value = new Date();
       formattedStartDate.value = resetTime(startDate.value).getTime();
@@ -71,7 +97,8 @@ export default {
       formattedStartDate,
       formattedEndDate,
       submitDates,
-      isDateValid
+      isDateValid,
+      componentKey
     };
   }
 };

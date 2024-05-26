@@ -1,63 +1,63 @@
 <template>
    <Card>
-      <template #title>Registrar</template>
-         <template #content>
-               <table>
-               <tbody>
-                  <tr>
-                     <td>Agendar para: </td>
-                     <td>
-                        <div class="register-input">
-                           <DatePicker v-model="datePayment" :manualInput="false" :minDate="today" dateFormat="dd/mm/yy" />
-                        </div>
-                     </td>
-                     <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                     <td>Valor: </td>
-                     <td>
-                        <div class="register-input">
-                           
-                           <money3 v-model="valuePayment" v-bind="config" class="p-inputtext p-component"></money3>
-                        </div>
-                     </td>
-                     <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                     <td>CTA Origem:</td>
-                     <td>
-                        <div class="accountsInputStyle">
-                           <InputText type="text" v-model="ctaOrigem" :maxlength="8" style="text-transform: uppercase" />
-                     </div>
-                     </td>
-                     <td>CTA Destino: </td>
-                     <td>
-                        <div class="accountsInputStyle">
-                           <InputText type="text" v-model="ctaDestino" :maxlength="8" style="text-transform: uppercase" />
-                     </div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                     <td>
-                        <br>
-                        <Button @click="submitDates" :disabled="!isDateValid" label="Registrar" />
-                     </td>
-                     <td></td>
-                  </tr>
-               </tbody>
-            </table>
-            <div style="width: 90%; margin-top: 10px;">
-               <hr>
-               <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" />
-         </div>
-         </template>
+     <template #title>Registrar</template>
+     <template #content>
+       <table>
+         <tbody>
+           <tr>
+             <td>Agendar para: </td>
+             <td>
+               <div class="register-input">
+                 <DatePicker required v-model="agendamento.dataTransferencia" :manualInput="false" :minDate="today" dateFormat="dd/mm/yy" />
+               </div>
+             </td>
+             <td colspan="2"></td>
+           </tr>
+           <tr>
+             <td>Valor: </td>
+             <td>
+               <div class="register-input">
+                 <money3 v-model="agendamento.valorTransferencia" v-bind="config" class="p-inputtext p-component" required></money3>
+               </div>
+             </td>
+             <td colspan="2"></td>
+           </tr>
+           <tr>
+             <td>CTA Origem:</td>
+             <td>
+               <div class="accountsInputStyle">
+                 <InputText type="text" v-model="agendamento.ctaOrigem" :maxlength="8" style="text-transform: uppercase" required />
+               </div>
+             </td>
+             <td>CTA Destino: </td>
+             <td>
+               <div class="accountsInputStyle">
+                 <InputText type="text" v-model="agendamento.ctaDestino" :maxlength="8" style="text-transform: uppercase" required />
+               </div>
+             </td>
+           </tr>
+           <tr>
+             <td>&nbsp;</td>
+             <td>
+               <br>
+               <Button @click="submitAgendamento" :disabled="!isFormValid" label="Registrar" />
+             </td>
+             <td></td>
+           </tr>
+         </tbody>
+       </table>
+       <div style="width: 90%; margin-top: 10px;">
+         <hr>
+         <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" :key="childKey" />
+       </div>
+     </template>
    </Card>
-</template>
+ </template>
 <script>
 import { ref, computed, onMounted } from 'vue';
 import DataTables from './DataTables.vue';
-import { Money3Component } from 'v-money3'
+import { Money3Component } from 'v-money3';
+import axios from 'axios';
 
 export default {
   name: 'HomeTemplate',
@@ -66,14 +66,46 @@ export default {
     money3: Money3Component
   },
   setup() {
-    const startDate = ref(0);
-    const endDate = ref(0);
-    const ctaOrigem = ref('');
-    const ctaDestino = ref(null);
-    const valuePayment = ref(null);
-    const datePayment = ref(null);
     const today = new Date();
+    const childKey = ref(0);
 
+    // Object
+    const agendamento = ref({
+      dataTransferencia: '',
+      valorTransferencia: '',
+      ctaOrigem: '',
+      ctaDestino: '',
+    });
+
+    const submitAgendamento = async () => {
+      try {
+        // Converting date to the required format 'dd-MM-yyyy'
+        const formatDate = (date) => {
+          const d = new Date(date);
+          const day = String(d.getDate()).padStart(2, '0');
+          const month = String(d.getMonth() + 1).padStart(2, '0');
+          const year = d.getFullYear();
+          return `${day}-${month}-${year}`;
+        };
+
+        agendamento.value.dataTransferencia = formatDate(agendamento.value.dataTransferencia);
+        agendamento.value.ctaOrigem = agendamento.value.ctaOrigem.toUpperCase();
+        agendamento.value.ctaDestino = agendamento.value.ctaDestino.toUpperCase();
+
+        console.log(agendamento.value);
+
+        await axios.post('http://localhost:8080/agendamento', agendamento.value);
+        agendamento.value = {
+          dataTransferencia: '',
+          valorTransferencia: '',
+          ctaOrigem: '',
+          ctaDestino: '',
+        };
+        reloadChildComponent();
+      } catch (error) {
+        console.error('Error in agendamento:', error);
+      }
+    };
 
     const formattedStartDate = ref('');
     const formattedEndDate = ref('');
@@ -84,52 +116,43 @@ export default {
       return newDate;
     };
 
-    const isDateValid = computed(() => {
-      return startDate.value && endDate.value;
+    const isFormValid = computed(() => {
+      return agendamento.value.dataTransferencia && agendamento.value.valorTransferencia && agendamento.value.ctaOrigem && agendamento.value.ctaDestino;
     });
 
-    const submitDates = () => {
-      console.log("exec ok");
-      formattedStartDate.value = resetTime(startDate.value).getTime();
-      formattedEndDate.value = resetTime(endDate.value).getTime();
+    const reloadChildComponent = () => {
+      childKey.value += 1; // force reload child component after post data.
     };
 
     onMounted(() => {
-      startDate.value = new Date();
-      endDate.value = new Date();
-      formattedStartDate.value = resetTime(startDate.value).getTime();
-      formattedEndDate.value = resetTime(endDate.value).getTime();
+      formattedStartDate.value = resetTime(new Date()).getTime();
+      formattedEndDate.value = resetTime(new Date()).getTime();
     });
 
     return {
-      ctaOrigem,
-      ctaDestino,
-      valuePayment,
-      datePayment,
-      startDate,
-      endDate,
+      agendamento,
       today,
       formattedStartDate,
       formattedEndDate,
-      submitDates,
-      isDateValid,
-      amount: '0',
-        config: {
-          masked: false,
-          prefix: 'R$ ',
-          suffix: '',
-          thousands: '.',
-          decimal: ',',
-          precision: 2,
-          disableNegative: false,
-          disabled: false,
-          min: null,
-          max: null,
-          allowBlank: false,
-          minimumNumberOfCharacters: 0,
-          shouldRound: true,
-          focusOnRight: false,
-        }
+      submitAgendamento,
+      isFormValid,
+      childKey,
+      config: {
+        masked: false,
+        prefix: 'R$ ',
+        suffix: '',
+        thousands: '.',
+        decimal: ',',
+        precision: 2,
+        disableNegative: false,
+        disabled: false,
+        min: null,
+        max: null,
+        allowBlank: false,
+        minimumNumberOfCharacters: 0,
+        shouldRound: true,
+        focusOnRight: false,
+      },
     };
   }
 };

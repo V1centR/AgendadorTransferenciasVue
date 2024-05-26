@@ -4,13 +4,13 @@
  </div>
  <Tabs value="0">
     <TabList>
-        <Tab value="0" class="tabFont">Home</Tab>
+        <Tab value="0" class="tabFont" @click="reloadChild">Home</Tab>
         <Tab value="1" class="tabFont">Registrar</Tab>
         <Tab value="2" class="tabFont">Help!</Tab>
     </TabList>
-    <TabPanels style="background-color: transparent; padding: 6px">
+    <TabView style="background-color: transparent; padding: 6px">
         <TabPanel value="0">
-            <HomeTemplate />
+            <HomeTemplate :reloadKey="reloadKey" />
         </TabPanel>
         <TabPanel value="1">
             <TransactionsTemplate/>
@@ -18,10 +18,11 @@
         <TabPanel value="2">
             <MessageTemplate/>
         </TabPanel>
-    </TabPanels>
+    </TabView>
   </Tabs>
  </template>
 <script>
+import { ref } from 'vue';
 import HomeTemplate from './HomeTemplate.vue';
 import MessageTemplate from './MessageTemplate.vue';
 import TransactionsTemplate from './TransactionsTemplate.vue';
@@ -31,7 +32,19 @@ export default {
     HomeTemplate,
     TransactionsTemplate,
     MessageTemplate
-  }
+  },
+  setup() {
+    const reloadKey = ref(0);
+
+    const reloadChild = () => {
+      reloadKey.value += 1;
+    };
+
+    return {
+      reloadKey,
+      reloadChild,
+    };
+  },
 }
  </script>
  <style>

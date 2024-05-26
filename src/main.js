@@ -1,5 +1,6 @@
 import './assets/main.css'
 import '../node_modules/primeflex/primeflex.css'
+import "vue3-ui-preloader/dist/loader.css"
 
 import { createApp } from 'vue'
 import App from './App.vue';
@@ -27,6 +28,7 @@ import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import Tag from 'primevue/tag';
 import InlineMessage from 'primevue/inlinemessage';
+import loader from "vue3-ui-preloader";
 
 import money from 'v-money3'
 
@@ -49,6 +51,7 @@ app.use(PrimeVue, {
     }});
 
 
+app.component('loader', loader)
 app.component('money', money);
 app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);
