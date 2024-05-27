@@ -1,21 +1,21 @@
 <template>
   <div>
-    <Message v-if="showMessage" :severity="'warn'" :closable="false">{{ message.text }}</Message>
-    <Message v-if="showEmptySearchMessage" :severity="'info'" :closable="false">{{ message.text }}</Message>
-    <DataTable v-if="showHideDataTable" :sortField="'id'" :sortOrder="-1" :value="agendamentos" paginator :rows="5" stripedRows :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem;">
-      <Column field="id" header="ID" style="width: 25%; background: none; color: #334155;"></Column>
-      <Column field="dataRegistro" header="Registro" style="width: 25%"></Column>
-      <Column field="dataTransferencia" header="Transferencia" style="width: 25%"></Column>
-      <Column field="ctaOrigem" header="Origem" style="width: 25%"></Column>
-      <Column field="ctaDestino" header="Destino" style="width: 25%"></Column>
-      <Column field="valorTransferencia" header="Valor" style="width: 25%">
-        <template #body="slotProps">
-          {{ formatCurrency(slotProps.data.valorTransferencia) }}
-        </template>
-      </Column>
-      <Column field="taxaAplicavel" header="Taxa" style="width: 25%"></Column>
-      <Column field="status" header="Status" style="width: 25%;font-weight: bold;"></Column>
-    </DataTable>
+     <Message v-if="showMessage" :severity="'warn'" :closable="false">{{ message.text }}</Message>
+     <Message v-if="showEmptySearchMessage" :severity="'info'" :closable="false">{{ message.text }}</Message>
+     <DataTable v-if="showHideDataTable" :sortField="'id'" :sortOrder="-1" :value="agendamentos" paginator :rows="5" stripedRows :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem;">
+        <Column field="id" header="ID" style="width: 25%; background: none; color: #334155;"></Column>
+        <Column field="dataRegistro" header="Registro" style="width: 25%"></Column>
+        <Column field="dataTransferencia" header="Transferencia" style="width: 25%"></Column>
+        <Column field="ctaOrigem" header="Origem" style="width: 25%"></Column>
+        <Column field="ctaDestino" header="Destino" style="width: 25%"></Column>
+        <Column field="valorTransferencia" header="Valor" style="width: 25%">
+           <template #body="slotProps">
+              {{ formatCurrency(slotProps.data.valorTransferencia) }}
+           </template>
+        </Column>
+        <Column field="taxaAplicavel" header="Taxa" style="width: 25%"></Column>
+        <Column field="status" header="Status" style="width: 25%;font-weight: bold;"></Column>
+     </DataTable>
   </div>
 </template>
 <script>

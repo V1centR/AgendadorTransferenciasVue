@@ -1,58 +1,59 @@
 <template>
-   <Card>
+  <Card>
      <template #title>Registrar</template>
      <template #content>
-       <table>
-         <tbody>
-           <tr>
-             <td>Agendar para: </td>
-             <td>
-               <div class="register-input">
-                 <DatePicker required v-model="agendamento.dataTransferencia" :manualInput="false" :minDate="today" dateFormat="dd/mm/yy" />
-               </div>
-             </td>
-             <td colspan="2"></td>
-           </tr>
-           <tr>
-             <td>Valor: </td>
-             <td>
-               <div class="register-input">
-                 <money3 v-model="agendamento.valorTransferencia" v-bind="config" class="p-inputtext p-component" required></money3>
-               </div>
-             </td>
-             <td colspan="2"></td>
-           </tr>
-           <tr>
-             <td>CTA Origem:</td>
-             <td>
-               <div class="accountsInputStyle">
-                 <InputText type="text" v-model="agendamento.ctaOrigem" :maxlength="8" style="text-transform: uppercase" required />
-               </div>
-             </td>
-             <td>CTA Destino: </td>
-             <td>
-               <div class="accountsInputStyle">
-                 <InputText type="text" v-model="agendamento.ctaDestino" :maxlength="8" style="text-transform: uppercase" required />
-               </div>
-             </td>
-           </tr>
-           <tr>
-             <td>&nbsp;</td>
-             <td>
-               <br>
-               <Button @click="submitAgendamento" :disabled="!isFormValid" label="Registrar" />
-             </td>
-             <td></td>
-           </tr>
-         </tbody>
-       </table>
-       <div style="width: 90%; margin-top: 10px;">
-         <hr>
-         <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" :key="childKey" />
-       </div>
+        <table>
+           <tbody>
+              <tr>
+                 <td>Agendar para: </td>
+                 <td>
+                    <div class="register-input">
+                       <DatePicker required v-model="agendamento.dataTransferencia" :manualInput="false" :minDate="today" dateFormat="dd/mm/yy" />
+                    </div>
+                 </td>
+                 <td colspan="2"></td>
+              </tr>
+              <tr>
+                 <td>Valor: </td>
+                 <td>
+                    <div class="register-input">
+                       <money3 v-model="agendamento.valorTransferencia" v-bind="config" class="p-inputtext p-component" required></money3>
+                    </div>
+                 </td>
+                 <td colspan="2"></td>
+              </tr>
+              <tr>
+                 <td>CTA Origem:</td>
+                 <td>
+                    <div class="accountsInputStyle">
+                       <InputText type="text" v-model="agendamento.ctaOrigem" :maxlength="8" style="text-transform: uppercase" required />
+                    </div>
+                 </td>
+                 <td>CTA Destino: </td>
+                 <td>
+                    <div class="accountsInputStyle">
+                       <InputText type="text" v-model="agendamento.ctaDestino" :maxlength="8" style="text-transform: uppercase" required />
+                    </div>
+                 </td>
+              </tr>
+              <tr>
+                 <td>&nbsp;</td>
+                 <td>
+                    <br>
+                    <Button @click="submitAgendamento" :disabled="!isFormValid" label="Registrar" />
+                 </td>
+                 <td></td>
+              </tr>
+           </tbody>
+        </table>
+        <div style="width: 90%; margin-top: 10px;">
+           <hr>
+           <Message v-if="showHideMessage" :severity="'warn'" :closable="false">{{ messageBlock }}</Message>
+           <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" :key="childKey" />
+        </div>
      </template>
-   </Card>
- </template>
+  </Card>
+</template>
 <script>
 import { ref, computed, onMounted } from 'vue';
 import DataTables from './DataTables.vue';
@@ -68,6 +69,11 @@ export default {
   setup() {
     const today = new Date();
     const childKey = ref(0);
+    const messageBlock = ref('');
+    const showHideMessage = ref(false);
+
+    const formatedDate = ref('');
+    
 
     // Object
     const agendamento = ref({
@@ -77,10 +83,8 @@ export default {
       ctaDestino: '',
     });
 
-    const submitAgendamento = async () => {
-      try {
-        // Converting date to the required format 'dd-MM-yyyy'
-        const formatDate = (date) => {
+    // Converting date to the required format 'dd-MM-yyyy'
+    const formatDate = (date) => {
           const d = new Date(date);
           const day = String(d.getDate()).padStart(2, '0');
           const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -88,13 +92,26 @@ export default {
           return `${day}-${month}-${year}`;
         };
 
+    const submitAgendamento = async () => {
+
+      try {
+        showHideMessage.value = false;
+        formatedDate.value = agendamento.value.dataTransferencia;
         agendamento.value.dataTransferencia = formatDate(agendamento.value.dataTransferencia);
         agendamento.value.ctaOrigem = agendamento.value.ctaOrigem.toUpperCase();
         agendamento.value.ctaDestino = agendamento.value.ctaDestino.toUpperCase();
 
-        console.log(agendamento.value);
+        const response = await axios.post('http://localhost:8080/agendamento', agendamento.value);
 
-        await axios.post('http://localhost:8080/agendamento', agendamento.value);
+        if(response.data.status == "blocked"){
+          showHideMessage.value = true;
+          agendamento.value.dataTransferencia = formatedDate.value;
+          isFormValid.value = false;
+          messageBlock.value = response.data.message;
+          return {};
+        }
+
+
         agendamento.value = {
           dataTransferencia: '',
           valorTransferencia: '',
@@ -137,6 +154,9 @@ export default {
       submitAgendamento,
       isFormValid,
       childKey,
+      messageBlock,
+      showHideMessage,
+      formatedDate,
       config: {
         masked: false,
         prefix: 'R$ ',

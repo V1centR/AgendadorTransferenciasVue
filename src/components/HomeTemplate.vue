@@ -1,36 +1,36 @@
 <template>
-    <Card>
-        <template #title>Home</template>
-        <template #content>
-            <div style="margin: 10px; width: 40%;">
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <div class="flex flex-column gap-2">
-                            <label for="startDate">Data Inicial:</label>
-                            <DatePicker v-model="startDate" dateFormat="dd/mm/yy" />
-                        </div>
-                    </div>
-                    <div class="field col">
-                        <div class="flex flex-column gap-2">
-                            <label for="endDate">Data Final:</label>
-                            <DatePicker v-model="endDate" dateFormat="dd/mm/yy" />
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <Button @click="submitDates" :disabled="!isDateValid" label="Buscar" />
-                </div>
-            </div>
-            <hr>
-            <div style="width: 90%;">
-                <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" :key="componentKey" />
-            </div>
-            <div style="font-weight: bold; margin-top: 10px; font-size: 10px;">
-              *AP : á pagar<br>
-              *OK : pago
-            </div>
-        </template>
-    </Card>    
+  <Card>
+     <template #title>Home</template>
+     <template #content>
+        <div style="margin: 10px; width: 40%;">
+           <div class="formgrid grid">
+              <div class="field col">
+                 <div class="flex flex-column gap-2">
+                    <label for="startDate">Data Inicial:</label>
+                    <DatePicker v-model="startDate" dateFormat="dd/mm/yy" />
+                 </div>
+              </div>
+              <div class="field col">
+                 <div class="flex flex-column gap-2">
+                    <label for="endDate">Data Final:</label>
+                    <DatePicker v-model="endDate" dateFormat="dd/mm/yy" />
+                 </div>
+              </div>
+           </div>
+           <div>
+              <Button @click="submitDates" :disabled="!isDateValid" label="Buscar" />
+           </div>
+        </div>
+        <hr>
+        <div style="width: 90%;">
+           <DataTables :startDate="formattedStartDate" :endDate="formattedEndDate" :key="componentKey" />
+        </div>
+        <div style="font-weight: bold; margin-top: 10px; font-size: 10px;">
+           *AP : á pagar<br>
+           *OK : pago
+        </div>
+     </template>
+  </Card>
 </template>
 <script>
 import { ref, computed, onMounted} from 'vue';
@@ -49,14 +49,14 @@ export default {
   },
   watch: {
     reloadKey() {
-      console.log("REFRESH ACCPETED!");
+     // console.log("REFRESH ACCPETED!");
       this.forceRerender();
     },
   },
   methods:{
     forceRerender() {
       this.componentKey += 1;
-      console.log("forceRerender exec");
+      //console.log("forceRerender exec");
     }
   },
   setup() {   
@@ -83,8 +83,6 @@ export default {
     };
 
     onMounted(() => {
-      
-      console.log("EXEC OK");
       startDate.value = new Date();
       endDate.value = new Date();
       formattedStartDate.value = resetTime(startDate.value).getTime();
