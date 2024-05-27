@@ -9,7 +9,7 @@ Este é um frontend de um sistema agendador de transferências bancárias, que s
 - HTML
 - CSS
 - PrimeVue 4
-- Backend https://github.com/V1centR/SchedulerTransferTM
+- Backend https://github.com/V1centR/AgendadorTransferenciasBackEnd
 
 
 ## Instalação
