@@ -10,6 +10,8 @@ import router from './router/router'
 import Aura from 'primevue/themes/aura';
 //import Lara from 'primevue/themes/lara';
 //import Nora from 'primevue/themes/nora';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 
 import InputText from 'primevue/inputtext';
@@ -39,6 +41,7 @@ import Column from 'primevue/column';
 const app = createApp(App);
 
 app.use(router);
+app.use(ToastService);
 app.use(PrimeVue, {
     // Default theme configuration
     theme: {
@@ -50,8 +53,8 @@ app.use(PrimeVue, {
         }
     }});
 
-
-app.component('loader', loader)
+app.component('Toast', Toast); 
+app.component('loader', loader);
 app.component('money', money);
 app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);

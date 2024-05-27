@@ -1,35 +1,42 @@
-# scheduler
 
-This template should help get you started developing with Vue 3 in Vite.
+# Agendador de transferências
+Este é um frontend de um sistema agendador de transferências bancárias, que são aplicadas taxas dinâmicamente de acordo com o dia agendado.
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🛠 Tecnologias
+- VueJs 3
+- Javascript
+- HTML
+- CSS
+- PrimeVue 4
+- Backend https://github.com/V1centR/SchedulerTransferTM
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Instalação
 
-## Project Setup
+Faça o clone do repositório e dentro da pasta schedulerTMFront execute o comando:
 
-```sh
-npm install
+```bash
+  npm install
 ```
 
-### Compile and Hot-Reload for Development
+Após terminado a execução do install digite:
 
-```sh
-npm run dev
+```bash
+  npm run dev
 ```
 
-### Compile and Minify for Production
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vicent-ramos-33954ab5/)
 
-```sh
-npm run build
-```
 
-### Lint with [ESLint](https://eslint.org/)
+## Screenshots
 
-```sh
-npm run lint
-```
+![Screenshot](screenshots/HomeScreenshot.png)
+
+![Screenshot](screenshots/HomeScreenshot2.png)
+
+![Screenshot](screenshots/RegisterScreenshot1.png)
+
+![Screenshot](screenshots/RegisterScreenshot2.png)
+
+![Screenshot](screenshots/RegisterScreenshot3.png)

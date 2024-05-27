@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <Card>
      <template #title>Registrar</template>
      <template #content>
@@ -59,6 +60,7 @@ import { ref, computed, onMounted } from 'vue';
 import DataTables from './DataTables.vue';
 import { Money3Component } from 'v-money3';
 import axios from 'axios';
+import { useToast } from 'primevue/usetoast';
 
 export default {
   name: 'HomeTemplate',
@@ -73,7 +75,8 @@ export default {
     const showHideMessage = ref(false);
 
     const formatedDate = ref('');
-    
+
+    const toast = useToast();
 
     // Object
     const agendamento = ref({
@@ -118,6 +121,7 @@ export default {
           ctaOrigem: '',
           ctaDestino: '',
         };
+        toast.add({ severity: 'info', summary: 'Sucesso', detail: 'Transferência registrada com sucesso.', life: 3000 });
         reloadChildComponent();
       } catch (error) {
         console.error('Error in agendamento:', error);
@@ -157,6 +161,7 @@ export default {
       messageBlock,
       showHideMessage,
       formatedDate,
+      toast,
       config: {
         masked: false,
         prefix: 'R$ ',

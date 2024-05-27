@@ -13,7 +13,10 @@
               {{ formatCurrency(slotProps.data.valorTransferencia) }}
            </template>
         </Column>
-        <Column field="taxaAplicavel" header="Taxa" style="width: 25%"></Column>
+        <Column field="taxaAplicavel" header="Taxa" style="width: 25%">
+          <template #body="slotProps">
+              {{ "%" + slotProps.data.taxaAplicavel }}
+           </template></Column>
         <Column field="status" header="Status" style="width: 25%;font-weight: bold;"></Column>
      </DataTable>
   </div>
